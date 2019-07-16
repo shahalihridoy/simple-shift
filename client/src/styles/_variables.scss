@@ -1,0 +1,29 @@
+// Colors
+$white: #ffffff;
+$black: rgba(0, 0, 0, 0.87);
+$muted: rgba(0, 0, 0, 0.54);
+$brand: #7467ef;
+$brand-active: darken($brand, 10);
+$primary: #7467ef;
+$secondary: #ff9e43;
+$warn: #e95455;
+
+// Layout
+$topbar-mobile-width: 220px;
+$topbar-height: 56px;
+$sidenav-width: 260px;
+$sidenav-button-width: 220px;
+$sidenav-compact-width: 60px;
+
+// Typography
+$font-weight-base: 400;
+$font-size-base: 1rem;
+$font-family-base: Roboto, "Helvetica Neue", sans-serif !default;
+
+// box shadow
+$box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.183197);
+
+:export {
+  primary: $primary;
+  secondary: $secondary;
+}

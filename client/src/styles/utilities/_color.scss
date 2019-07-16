@@ -1,0 +1,46 @@
+.bg-primary {
+  background: $primary !important;
+}
+.bg-secondary {
+  background: $secondary !important;
+}
+.bg-white {
+  background: #fff !important;
+  color: inherit;
+}
+.bg-light-gray {
+  background: rgba(0, 0, 0, 0.1);
+}
+.bg-dark {
+  background: #000000;
+  color: #fff;
+}
+.bg-light-dark {
+  background: #212121;
+  color: white;
+}
+.text-white {
+  color: #fff !important;
+}
+.text-light-white {
+  color: rgba(255, 255, 255, 0.54);
+}
+.text-muted {
+  color: rgba(0, 0, 0, 0.54);
+}
+.text-gray {
+  color: rgba(0, 0, 0, 0.74);
+}
+.text-brand {
+  color: $brand;
+}
+.text-primary {
+  color: $primary;
+}
+.text-secondary {
+  color: $secondary;
+}
+// shadows
+.box-shadow-3 {
+  box-shadow: $box-shadow;
+}

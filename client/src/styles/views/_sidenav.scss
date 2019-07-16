@@ -1,0 +1,94 @@
+.sidenav {
+  position: relative;
+  position: fixed;
+  height: 100vh;
+  color: rgba($color: #ffffff, $alpha: 0.87);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  overflow: hidden;
+  z-index: 3;
+  .sidenav__hold {
+    position: relative;
+    height: 100%;
+    // Sidebar BG
+    background-image: url("/assets/images/sidebar-bg-dark.jpg");
+    z-index: 3;
+    // Sidebar overlay
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.74);
+      z-index: -1;
+    }
+    .scrollable {
+      padding: 0 20px;
+    }
+    .brand-area {
+      width: $sidenav-width;
+      padding: 5px 20px 5px 35px;
+      .brand {
+        img {
+          height: 24px;
+          margin-right: 12px;
+        }
+        .brand__text {
+          font-weight: bold;
+          font-size: 1.125rem;
+        }
+      }
+    }
+    .sidenav__user {
+      width: calc(#{$sidenav-width} - 36px);
+      display: flex;
+      justify-content: space-between;
+      padding: 0 13px;
+      img {
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+      }
+      .small-icon {
+        font-size: 16px;
+        line-height: 1em;
+      }
+    }
+  }
+}
+
+.navigation {
+  .nav-item {
+    display: flex;
+    border-radius: 4px !important;
+    height: 48px;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    padding-left: 15px;
+    &:hover {
+      background: $primary;
+    }
+    &.active {
+      background: $primary;
+    }
+    > button {
+      justify-content: flex-start;
+    }
+    .icon-text {
+      display: inline-block;
+      height: 21px;
+      width: 21px;
+      line-height: 21px;
+    }
+    .item-arrow {
+      margin-right: 12px;
+    }
+  }
+}
+
+.sidenav-content-min-width {
+  min-width: calc(#{$sidenav-width} - 40px) !important;
+}

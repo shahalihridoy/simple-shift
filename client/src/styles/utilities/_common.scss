@@ -1,0 +1,44 @@
+.bg-dotted {
+  background: url("/assets/images/dots.png"),
+    linear-gradient(90deg, #7467ef -19.83%, #ada5f6 189.85%);
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+.big-circular-image {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.circular-image-small {
+  height: 48px;
+  width: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.card-title {
+  font-size: 1rem;
+  text-transform: capitalize;
+}
+.card-subtitle {
+  font-size: 0.875rem;
+  color: $muted;
+}
+
+.hide-on-mobile {
+  @media screen and (max-width: 767px) {
+    display: none !important;
+  }
+}
+
+.payment-field {
+  outline: $primary;
+  border: 2px solid lighten($primary, 20);
+  font-size: 16px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-radius: 4px;
+  font-weight: 700 !important;
+}

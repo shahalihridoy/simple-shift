@@ -1,0 +1,14 @@
+.signup {
+  background: url("http://egret.ui-lib.com/waterfall.ecbd33dd1df4628c5c82.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  .signup-card {
+    max-width: 800px;
+    border-radius: 12px !important;
+    img {
+      width: 200px;
+    }
+  }
+}
