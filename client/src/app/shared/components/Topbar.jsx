@@ -16,7 +16,8 @@ import { signOut } from "../../views/sessions/SessionService";
 
 class Topbar extends Component {
   state = {
-    showSearchBox: false
+    showSearchBox: false,
+    userImage: "/assets/images/face-7.jpg"
   };
 
   handleMenuClick = () => {
@@ -39,7 +40,11 @@ class Topbar extends Component {
     this.setState({ showSearchBox: !this.state.showSearchBox });
   };
 
-  componentWillReceiveProps(props) {}
+  componentWillReceiveProps({ user }) {
+    this.setState({
+      userImage: user.photoUrl
+    });
+  }
 
   render() {
     return (
@@ -63,7 +68,7 @@ class Topbar extends Component {
                   menuButton={
                     <img
                       className="mx-8 text-middle circular-image-small cursor-pointer"
-                      src="/assets/images/face-7.jpg"
+                      src={this.state.userImage}
                       alt="user"
                     />
                   }

@@ -19,12 +19,19 @@ import { signOut } from "../../views/sessions/SessionService";
 
 class Sidenav extends Component {
   state = {
-    sidenavToggleChecked: false
+    sidenavToggleChecked: false,
+    userImage: "/assets/images/face-7.jpg",
+    displayName: ""
   };
 
-  componentWillReceiveProps({ sidenav }) {
+  componentWillReceiveProps({ sidenav, user }) {
     if (sidenav === "full" && !isMobile())
-      this.setState({ sidenavToggleChecked: false });
+      this.setState({
+        sidenavToggleChecked: false,
+        userImage: user.photoUrl,
+        displayName: user.name
+      });
+    else this.setState({ userImage: user.photoUrl, displayName: user.name });
   }
 
   handleSidenavToggle = () => {
@@ -45,7 +52,7 @@ class Sidenav extends Component {
     <div className="flex flex-middle flex-space-between brand-area">
       <div className="flex flex-middle brand">
         <img src="/assets/images/logo.png" alt="company-logo" />
-        <span className="brand__text">Simple Shift</span>
+        <span className="brand__text">Shift Simple</span>
       </div>
       <Switch
         className="sidenav__toggle hide-on-mobile"
@@ -62,8 +69,8 @@ class Sidenav extends Component {
         menuButton={
           <div className="flex flex-middle py-8 my-8 cursor-pointer sidenav__user h-70">
             <div className="flex flex-middle">
-              <img src="/assets/images/face-7.jpg" alt="user" />
-              <span className="px-20">John Doe</span>
+              <img src={this.state.userImage} alt="user" />
+              <span className="px-20">{this.state.displayName}</span>
             </div>
             <Icon>arrow_drop_down</Icon>
           </div>
@@ -120,7 +127,8 @@ Sidenav.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  sidenav: state.layout.sidenav
+  sidenav: state.layout.sidenav,
+  user: state.auth
 });
 
 export default withRouter(

@@ -1,21 +1,106 @@
 import React, { Component, Fragment } from "react";
-import { Card, Button, Divider, Grid } from "@material-ui/core";
+import {
+  Card,
+  Button,
+  Grid,
+  FormControlLabel,
+  Checkbox,
+  LinearProgress
+} from "@material-ui/core";
+import { connect } from "react-redux";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Breadcrumb from "../../shared/components/Breadcrumb";
+import { signupWithEmailAndPassword } from "../sessions/SessionService";
+import { setCandidate } from "./DashboardService";
 
 class CadidateManager extends Component {
-  state = {};
+  state = {
+    seat1: "",
+    seat2: "",
+    pass1: "",
+    pass2: "",
+    loading: false,
+    agreement: false,
+    subscription: "active"
+  };
 
-  handleInputChange = event => {
+  handleChange = event => {
+    let field = event.target;
     this.setState({
-      [event.target.name]: event.target.value
+      [field.name]: field.value
     });
   };
 
-  handleSubmit = () => {};
+  handleCheck = event => {
+    let user = this.props.user;
+
+    if (event.target.checked)
+      this.setState({
+        seat1: user.email,
+        agreement: event.target.checked
+      });
+    else
+      this.setState({
+        seat1: "",
+        agreement: event.target.checked
+      });
+  };
+
+  handleSubmit = () => {
+    let user = this.props.user;
+    let { seat1, seat2, pass1, pass2 } = this.state;
+    this.setState({ loading: true });
+
+    if (this.state.agreement) {
+      signupWithEmailAndPassword(seat2, pass2).finally(() => {
+        setCandidate(this.state, user.uid).finally(() => {
+          this.setState({ loading: false });
+        });
+      });
+    } else {
+      Promise.all(
+        signupWithEmailAndPassword(seat1, pass1),
+        signupWithEmailAndPassword(seat2, pass2)
+      )
+        .catch(err => {})
+        .finally(() => {
+          setCandidate(this.state, user.uid).finally(() => {
+            this.setState({ loading: false });
+          });
+        });
+    }
+  };
+
+  componentWillReceiveProps({ user }) {
+    if (user.subscription.status !== "active") {
+      this.setState({
+        subscription: "inactive"
+      });
+      this.props.history.push("/dashboard/subscription");
+    } else {
+      this.setState({
+        ...user.candidates.one,
+        ...user.candidates.two
+      });
+    }
+  }
+
+  componentWillMount() {
+    let { user } = this.props;
+    if (!user.subscription) return;
+    if (user.subscription.status !== "active") {
+      this.setState({ subscription: "inactive" });
+      this.props.history.push("/dashboard/subscription");
+    } else {
+      this.setState({
+        ...user.candidates.one,
+        ...user.candidates.two
+      });
+    }
+  }
 
   render() {
-    let { email, password, loading } = this.state;
+    let { seat1, seat2, pass1, pass2, loading } = this.state;
     return (
       <Fragment>
         <div className="pb-30 hide-on-mobile">
@@ -26,6 +111,7 @@ class CadidateManager extends Component {
             ]}
           />
         </div>
+        {loading && <LinearProgress color="primary" variant="indeterminate" />}
         <Card className="p-16">
           <ValidatorForm
             ref="form"
@@ -40,8 +126,8 @@ class CadidateManager extends Component {
                   className="my-8 w-100"
                   label="Email"
                   onChange={this.handleChange}
-                  name="email"
-                  value={email}
+                  name="seat1"
+                  value={seat1}
                   variant="outlined"
                   validators={["required", "isEmail"]}
                   errorMessages={[
@@ -53,9 +139,8 @@ class CadidateManager extends Component {
                   className="my-8 w-100"
                   label="Password"
                   onChange={this.handleChange}
-                  type="password"
-                  name="password"
-                  value={password}
+                  name="pass1"
+                  value={pass1}
                   validators={["required"]}
                   errorMessages={["This field is required"]}
                   variant="outlined"
@@ -67,8 +152,8 @@ class CadidateManager extends Component {
                   className="my-8 w-100"
                   label="Email"
                   onChange={this.handleChange}
-                  name="email"
-                  value={email}
+                  name="seat2"
+                  value={seat2}
                   variant="outlined"
                   validators={["required", "isEmail"]}
                   errorMessages={[
@@ -80,15 +165,21 @@ class CadidateManager extends Component {
                   className="my-8 w-100"
                   label="Password"
                   onChange={this.handleChange}
-                  type="password"
-                  name="password"
-                  value={password}
+                  name="pass2"
+                  value={pass2}
                   validators={["required"]}
                   errorMessages={["This field is required"]}
                   variant="outlined"
                 />
               </Grid>
             </Grid>
+
+            <FormControlLabel
+              name="agreement"
+              onChange={this.handleCheck}
+              control={<Checkbox />}
+              label="Add yourself as a candidate"
+            />
 
             <div className="flex flex-end py-16">
               <Button
@@ -108,4 +199,11 @@ class CadidateManager extends Component {
   }
 }
 
-export default CadidateManager;
+const mapStateToProps = state => ({
+  user: state.auth
+});
+
+export default connect(
+  mapStateToProps,
+  {}
+)(CadidateManager);

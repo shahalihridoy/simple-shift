@@ -24,7 +24,7 @@ export const Data = [
     icon: "edit"
   },
   {
-    name: "Manage Candidate",
+    name: "Manage Seats",
     path: "/dashboard/manage-candidate",
     icon: "people"
   },

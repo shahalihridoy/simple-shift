@@ -75,6 +75,8 @@ export const recurringPayment = functions.https.onRequest((req, res) => {
   const hook = req.body.type;
   const data = req.body.data.object;
 
+  console.log(hook);
+
   if (!data) throw new Error("missing data");
 
   return admin
@@ -83,23 +85,41 @@ export const recurringPayment = functions.https.onRequest((req, res) => {
     .once("value")
     .then(snapshot => snapshot.val())
     .then(userId => {
-      const ref = admin.database().ref(`/users/${userId}/subscription`);
+      const field1 = `/Organisations/${userId}/candidates/one/status`;
+      const field2 = `/Organisations/${userId}/candidates/two/status`;
+      const field3 = `/Organisations/${userId}/subscription/status`;
 
       // Handle successful payment webhook
       if (
         hook === "customer.subscription.created" ||
-        hook === "subscripton_schedule.updated" ||
         hook === "subscripton_schedule.completed"
       ) {
-        return ref.update({ status: "active" });
+        const update = {
+          [field1]: "active",
+          [field2]: "active",
+          [field3]: "active"
+        };
+        return admin
+          .database()
+          .ref()
+          .update(update);
       }
 
       // Handle failed payment webhook
-      if (
+      else if (
         hook === "subscripton_schedule.cancelled" ||
-        hook === "subscripton_schedule.aborted"
+        hook === "subscripton_schedule.aborted" ||
+        hook === "customer.subscription.deleted"
       ) {
-        return ref.update({ status: "inactive" });
+        const update = {
+          [field1]: "inactive",
+          [field2]: "inactive",
+          [field3]: "inactive"
+        };
+        return admin
+          .database()
+          .ref()
+          .update(update);
       }
 
       throw new Error("Nothing found");
@@ -108,24 +128,16 @@ export const recurringPayment = functions.https.onRequest((req, res) => {
     .catch(err => res.status(400).send(`error handling ${hook}`));
 });
 
-export const cancelSubscription = functions.https.onCall((data, context) => {
-  const { subscriptionId } = data;
-
-  if (subscriptionId) return stripe.subscriptions.del(subscriptionId);
-  else throw new Error("No subsciption id found");
-});
-
-
 export const createNewSubscription = functions.https.onCall((data, context) => {
-
   // you have to send tokenId, plan
-    const {sourceId, customerId} = data;
-    const userId = context.auth!.uid;
+  const { sourceId, customerId } = data;
+  const userId = context.auth!.uid;
 
-    return stripe.customers.createSource(customerId,{
+  return stripe.customers
+    .createSource(customerId, {
       source: sourceId
     })
-    .then(()=>{
+    .then(() => {
       return stripe.subscriptions.create({
         customer: customerId,
         items: [
@@ -140,7 +152,7 @@ export const createNewSubscription = functions.https.onCall((data, context) => {
       const field2 = `/Organisations/${userId}/subscription/plan`;
       const field3 = `/Organisations/${userId}/subscription/id`;
       console.log(sub);
-      
+
       const update = {
         [field1]: "active",
         [field2]: sub.plan!.id,
@@ -154,7 +166,13 @@ export const createNewSubscription = functions.https.onCall((data, context) => {
     })
     .catch(err => {
       console.log(err);
-      return err
+      return err;
     });
+});
 
+export const cancelSubscription = functions.https.onCall((data, context) => {
+  const { subscriptionId } = data;
+
+  if (subscriptionId) return stripe.subscriptions.del(subscriptionId);
+  else throw new Error("No subsciption id found");
 });

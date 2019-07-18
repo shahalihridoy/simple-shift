@@ -43,3 +43,28 @@ export const sendUserDataInFirebase = (data, uid) => {
     .ref(`Organisations/${uid}`)
     .update({ ...data });
 };
+
+export const setCandidate = (data, uid) => {
+  let { seat1, pass1, seat2, pass2 } = data;
+  return firebase
+    .database()
+    .ref(`Organisations/${uid}/candidates`)
+    .update({
+      one: {
+        seat1,
+        pass1,
+        status: "active"
+      },
+      two: {
+        seat2,
+        pass2,
+        status: "active"
+      }
+    });
+};
+
+export const cancelSubscription = subscriptionId => {
+  return firebase.functions().httpsCallable("cancelSubscription")({
+    subscriptionId
+  });
+};

@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import {
   Card,
-  Divider,
   Button,
   Fab,
   Icon,
@@ -9,7 +8,6 @@ import {
   LinearProgress
 } from "@material-ui/core";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
-import firebase from "../../authentication/FirebaseConfig";
 import { uploadProfilePhoto, sendUserDataInFirebase } from "./DashboardService";
 import Breadcrumb from "../../shared/components/Breadcrumb";
 import { connect } from "react-redux";

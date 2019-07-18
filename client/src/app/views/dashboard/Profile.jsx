@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Card, Icon, IconButton, Button } from "@material-ui/core";
+import { Grid, Card } from "@material-ui/core";
 import Breadcrumb from "../../shared/components/Breadcrumb";
 import { connect } from "react-redux";
 
@@ -20,7 +20,15 @@ class Profile extends Component {
   }
 
   render() {
-    let { name, abn, address, plan, photoUrl, candidates } = this.props.user;
+    let {
+      name,
+      abn,
+      address,
+      photoUrl,
+      subscription,
+      candidates
+    } = this.props.user;
+
     return (
       <div className="analytics">
         <div className="pb-30 hide-on-mobile">
@@ -44,18 +52,21 @@ class Profile extends Component {
                 Address: <span className="font-weight-normal">{address}</span>
               </h5>
               <h5 className="my-16">
-                Plan: <span className="font-weight-normal">{plan}</span>
+                Plan:{" "}
+                <span className="font-weight-normal">
+                  {subscription ? subscription.plan : ""}
+                </span>
               </h5>
               <h5 className="mb-12">
                 Candidate-1:{" "}
                 <span className="font-weight-normal">
-                  {candidates ? candidates[0].email : ""}
+                  {candidates ? candidates.one.seat1 : ""}
                 </span>
               </h5>
               <h5 className="mb-12">
                 Candidate-2:{" "}
                 <span className="font-weight-normal">
-                  {candidates ? candidates[1].email : ""}
+                  {candidates ? candidates.two.seat2 : ""}
                 </span>
               </h5>
             </Grid>
