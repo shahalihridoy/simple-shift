@@ -18,6 +18,11 @@ const redirectRoute = [
     path: "/",
     exact: true,
     component: () => <Redirect to="/dashboard/profile" />
+  },
+  {
+    path: "/dashboard",
+    exact: true,
+    component: () => <Redirect to="/dashboard/profile" />
   }
 ];
 

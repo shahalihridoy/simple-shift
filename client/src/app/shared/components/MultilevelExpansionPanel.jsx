@@ -21,6 +21,8 @@ class MultilevelExpansionPanel extends Component {
   };
 
   renderLevels = data => {
+    let { onNavigationClick } = this.props;
+
     return data.map((item, index) => {
       if (item.children) {
         return (
@@ -34,7 +36,12 @@ class MultilevelExpansionPanel extends Component {
         );
       } else {
         return (
-          <NavLink key={index} to={item.path} className="nav-item">
+          <NavLink
+            onClick={onNavigationClick}
+            key={index}
+            to={item.path}
+            className="nav-item"
+          >
             <TouchRipple key={item.name} name="child" className="w-100">
               {(() => {
                 if (item.icon) {

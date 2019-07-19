@@ -23,6 +23,7 @@ class Profile extends Component {
     let {
       name,
       abn,
+      phone,
       address,
       photoUrl,
       subscription,
@@ -47,6 +48,9 @@ class Profile extends Component {
               <h4 className="mb-20">{name}</h4>
               <h5 className="mb-12">
                 ABN: <span className="font-weight-normal">{abn}</span>
+              </h5>
+              <h5 className="mb-12">
+                Contact No: <span className="font-weight-normal">{phone}</span>
               </h5>
               <h5 className="mb-12">
                 Address: <span className="font-weight-normal">{address}</span>

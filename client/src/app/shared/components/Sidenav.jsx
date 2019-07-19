@@ -48,6 +48,10 @@ class Sidenav extends Component {
     });
   };
 
+  handleNavigationClick = () => {
+    if (isMobile()) this.props.closeSidenav();
+  };
+
   renderEgretIconWithSwitch = () => (
     <div className="flex flex-middle flex-space-between brand-area">
       <div className="flex flex-middle brand">
@@ -98,7 +102,10 @@ class Sidenav extends Component {
         </div>
       </CustomizedMenu>
       <div className="navigation">
-        <MultilevelExpansionPanel data={Data} />
+        <MultilevelExpansionPanel
+          onNavigationClick={this.handleNavigationClick}
+          data={Data}
+        />
       </div>
     </Fragment>
   );

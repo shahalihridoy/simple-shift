@@ -19,9 +19,11 @@ export const createStripeCustomer = functions.auth.user().onCreate(user => {
       /// update database with stripe customer id
       const field1 = `/Subscriptons/customers/${customer.id}`;
       const field2 = `/Organisations/${user.uid}/customerId`;
+      const field3 = `/Organisations/${user.uid}/subscription/status`;
       const updates = {
         [field1]: user.uid,
-        [field2]: customer.id
+        [field2]: customer.id,
+        [field3]: "inactive"
       };
 
       return admin

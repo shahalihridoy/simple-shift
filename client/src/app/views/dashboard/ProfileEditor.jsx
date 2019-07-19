@@ -20,6 +20,7 @@ class ProfileEditor extends Component {
     loading: false,
     photoUrl: "",
     uid: "",
+    phone: "",
     file: null
   };
 
@@ -59,13 +60,14 @@ class ProfileEditor extends Component {
   };
 
   postDataToFirebase = () => {
-    let { uid, name, email, abn, address, photoUrl } = this.state;
+    let { uid, name, email, abn, phone, address, photoUrl } = this.state;
 
-    sendUserDataInFirebase({ name, email, abn, address, photoUrl }, uid).then(
-      () => {
-        this.props.history.push("/dashboard/subscription");
-      }
-    );
+    sendUserDataInFirebase(
+      { name, email, abn, phone, address, photoUrl },
+      uid
+    ).then(() => {
+      this.props.history.push("/dashboard/profile");
+    });
 
     this.setState({ loading: false });
   };
@@ -80,7 +82,7 @@ class ProfileEditor extends Component {
   }
 
   render() {
-    let { name, abn, address, photoUrl, loading } = this.state;
+    let { name, abn, address, photoUrl, phone, loading } = this.state;
 
     return (
       <Fragment>
@@ -152,6 +154,17 @@ class ProfileEditor extends Component {
                   variant="outlined"
                   validators={["required"]}
                   errorMessages={["This field is required"]}
+                />
+
+                <TextValidator
+                  className="my-8 w-100"
+                  label="Contact Number"
+                  onChange={this.handleInputChange}
+                  name="phone"
+                  value={phone}
+                  validators={["required"]}
+                  errorMessages={["This field is required"]}
+                  variant="outlined"
                 />
 
                 <TextValidator

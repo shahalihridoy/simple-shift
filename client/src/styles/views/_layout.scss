@@ -42,6 +42,12 @@
   }
 }
 
+.scrollable {
+  padding: 0 6px;
+  width: $sidenav-width;
+  min-width: $sidenav-width;
+}
+
 // sidenav full
 .sidenav-full {
   .sidenav {
