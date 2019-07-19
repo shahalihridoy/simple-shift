@@ -178,3 +178,28 @@ export const cancelSubscription = functions.https.onCall((data, context) => {
   if (subscriptionId) return stripe.subscriptions.del(subscriptionId);
   else throw new Error("No subsciption id found");
 });
+
+export const createCandidateAccount = functions.https.onCall(
+  (data, context) => {
+    const { seat1, seat2, pass1, pass2 } = data;
+    const user1 = admin.auth().createUser({
+      email: seat1,
+      emailVerified: false,
+      password: pass1,
+      displayName: "candidate",
+      photoURL: "http://www.example.com/12345678/photo.png",
+      disabled: false
+    });
+
+    const user2 = admin.auth().createUser({
+      email: seat2,
+      emailVerified: false,
+      password: pass2,
+      displayName: "candidate",
+      photoURL: "http://www.example.com/12345678/photo.png",
+      disabled: false
+    });
+
+    return Promise.all([user1, user2]);
+  }
+);
