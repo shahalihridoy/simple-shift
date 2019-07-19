@@ -23,7 +23,7 @@ export const loadUser = () => {
     } else {
       Store.dispatch(
         dispatchFunction({
-          ...user
+          // ...user
         })
       );
     }
@@ -63,6 +63,9 @@ export const setCandidate = (data, uid) => {
     });
 };
 
+export const createCandidateAccount = data => {
+  return firebase.functions().httpsCallable("createCandidateAccount")(data);
+};
 export const cancelSubscription = subscriptionId => {
   return firebase.functions().httpsCallable("cancelSubscription")({
     subscriptionId

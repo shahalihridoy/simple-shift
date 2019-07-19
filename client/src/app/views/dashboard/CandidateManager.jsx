@@ -11,7 +11,7 @@ import { connect } from "react-redux";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Breadcrumb from "../../shared/components/Breadcrumb";
 import { signupWithEmailAndPassword } from "../sessions/SessionService";
-import { setCandidate } from "./DashboardService";
+import { setCandidate, createCandidateAccount } from "./DashboardService";
 
 class CadidateManager extends Component {
   state = {
@@ -51,33 +51,41 @@ class CadidateManager extends Component {
     let { seat1, seat2, pass1, pass2 } = this.state;
     this.setState({ loading: true });
 
-    if (this.state.agreement) {
-      signupWithEmailAndPassword(seat2, pass2).finally(() => {
-        setCandidate(this.state, user.uid).finally(() => {
-          this.setState({ loading: false });
-        });
-      });
-    } else {
-      Promise.all(
-        signupWithEmailAndPassword(seat1, pass1),
-        signupWithEmailAndPassword(seat2, pass2)
-      )
-        .catch(err => {})
-        .finally(() => {
-          setCandidate(this.state, user.uid).finally(() => {
-            this.setState({ loading: false });
-          });
-        });
-    }
+    createCandidateAccount({ seat1, seat2, pass1, pass2 }).catch(e => {});
+
+    setCandidate(this.state, user.uid).finally(() => {
+      this.setState({ loading: false });
+    });
+
+    // if (this.state.agreement) {
+    //   signupWithEmailAndPassword(seat2, pass2).finally(() => {
+    //     setCandidate(this.state, user.uid).finally(() => {
+    //       this.setState({ loading: false });
+    //     });
+    //   });
+    // } else {
+    //   createCandidateAccount({seat1,seat2,pass1,pass2});
+    //   Promise.all(
+    //     signupWithEmailAndPassword(seat1, pass1),
+    //     signupWithEmailAndPassword(seat2, pass2)
+    //   )
+    //     .catch(err => {})
+    //     .finally(() => {
+    //       setCandidate(this.state, user.uid).finally(() => {
+    //         this.setState({ loading: false });
+    //       });
+    //     });
+    // }
   };
 
   componentWillReceiveProps({ user }) {
+    if (!user.subscription) return;
     if (user.subscription.status !== "active") {
       this.setState({
         subscription: "inactive"
       });
       this.props.history.push("/dashboard/subscription");
-    } else {
+    } else if (user.candidates) {
       this.setState({
         ...user.candidates.one,
         ...user.candidates.two
@@ -91,7 +99,7 @@ class CadidateManager extends Component {
     if (user.subscription.status !== "active") {
       this.setState({ subscription: "inactive" });
       this.props.history.push("/dashboard/subscription");
-    } else {
+    } else if (user.candidates) {
       this.setState({
         ...user.candidates.one,
         ...user.candidates.two

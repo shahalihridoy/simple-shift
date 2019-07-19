@@ -25,6 +25,10 @@ class Sidenav extends Component {
   };
 
   componentWillReceiveProps({ sidenav, user }) {
+    if (!user.uid && !user.isUserLoggedIn) {
+      this.props.history.push("/session/signin");
+    }
+
     if (sidenav === "full" && !isMobile())
       this.setState({
         sidenavToggleChecked: false,

@@ -102,7 +102,6 @@ class Subscription extends Component {
   cancelSubscription = () => {
     this.setState({ loading: true });
     cancelSubscription(this.props.user.subscription.id).then(data => {
-      console.log(data);
       this.setState({ loading: false });
     });
   };

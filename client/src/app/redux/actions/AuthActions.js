@@ -1,10 +1,8 @@
 import { SET_USER } from "./Types";
 
-export const setUser = (data) => dispatch => {
-    console.log(data);
-
-    dispatch({
-        type: SET_USER,
-        data: data
-    });
+export const setUser = data => dispatch => {
+  dispatch({
+    type: SET_USER,
+    data: data
+  });
 };
