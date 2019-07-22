@@ -63,7 +63,7 @@ class Sidenav extends Component {
         <span className="brand__text">Shift Simple</span>
       </div>
       <Switch
-        className="sidenav__toggle hide-on-mobile"
+        className="sidenav__toggle hide-on-mobile display-none"
         onChange={this.handleSidenavToggle}
         checked={this.state.sidenavToggleChecked}
         color="secondary"

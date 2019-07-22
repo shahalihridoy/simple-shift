@@ -38,6 +38,19 @@ class Subscription extends Component {
       buttonText: "Get Started"
     },
     {
+      title: "Premium",
+      subtitle: "Basic Solution",
+      price: 24.99,
+      allowedOfferIndexList: [0, 1],
+      offerList: [
+        "Upload 1 Track",
+        "50km Starting Radius",
+        "View and Analyze Listener Interactions",
+        "1 Boost Per Month"
+      ],
+      buttonText: "Get Started"
+    },
+    {
       title: "Gold",
       subtitle: "Advanced Platform",
       price: 49.99,

@@ -14,7 +14,7 @@ import { loadUser } from "./views/dashboard/DashboardService";
 const App = () => {
   loadUser();
   return (
-    <StripeProvider apiKey="pk_test_sY9MZUqJZsn3da53CaiV5EPm00QYT2mScy">
+    <StripeProvider apiKey="pk_live_D2msV3Te6eLdr2jFJHa1LK8R00cG727cBS">
       <Provider store={Store}>
         <MuiThemeProvider theme={MaterialTheme}>
           <Router>{renderRoutes(routes)}</Router>

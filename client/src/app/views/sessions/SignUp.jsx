@@ -18,18 +18,25 @@ class SignUp extends Component {
   state = {
     email: "",
     password: "",
-    agreement: "",
+    agreement: false,
     loading: false
   };
 
-  handleChange = event => {
+  handleChange = (event,type) => {
     event.persist();
+    if(type === "agreement") {
+      this.setState({
+        agreement: event.target.checked
+      })
+      return;
+    }
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
   handleFormSubmit = event => {
+    if(!this.state.agreement) return;
     this.setState({ loading: true });
     signupWithEmailAndPassword(this.state.email, this.state.password)
       .then(user => {
@@ -45,7 +52,7 @@ class SignUp extends Component {
   };
 
   render() {
-    let { email, password, loading } = this.state;
+    let { email, password, loading, agreement } = this.state;
     return (
       <div className="signup flex flex-center w-100 h-100vh bg-light-gray">
         <div className="p-8">
@@ -92,7 +99,8 @@ class SignUp extends Component {
                     />
                     <FormControlLabel
                       name="agreement"
-                      onChange={this.handleChange}
+                      checked={agreement}
+                      onChange={(event)=>this.handleChange(event,"agreement")}
                       control={<Checkbox />}
                       label="I have read and agree to the terms of service."
                     />

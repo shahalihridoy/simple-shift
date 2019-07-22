@@ -89,12 +89,6 @@ class SignIn extends Component {
                       validators={["required"]}
                       errorMessages={["this field is required"]}
                     />
-                    <FormControlLabel
-                      name="agreement"
-                      onChange={this.handleChange}
-                      control={<Checkbox />}
-                      label="I have read and agree to the terms of service."
-                    />
                     <div className="mt-16 flex flex-middle">
                       <Button
                         className="capitalize"
