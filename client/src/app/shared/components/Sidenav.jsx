@@ -57,17 +57,11 @@ class Sidenav extends Component {
   };
 
   renderEgretIconWithSwitch = () => (
-    <div className="flex flex-middle flex-space-between brand-area">
+    <div className="flex flex-middle flex-space-between brand-area pt-16">
       <div className="flex flex-middle brand">
         <img src="/assets/images/logo.png" alt="company-logo" />
         <span className="brand__text">Shift Simple</span>
       </div>
-      <Switch
-        className="sidenav__toggle hide-on-mobile display-none"
-        onChange={this.handleSidenavToggle}
-        checked={this.state.sidenavToggleChecked}
-        color="secondary"
-      />
     </div>
   );
 
